@@ -349,7 +349,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		C861BB761B61B21D00661AF5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -359,9 +359,9 @@
 			outputPaths = (
 				"$(SRCROOT)",
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Generators\"\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Metadata\"\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Example\"\n\\cp \"${SCRIPT_INPUT_FILE_0}\" \"${SCRIPT_OUTPUT_FILE_0}/build\"\n\\cp -r \"${SCRIPT_INPUT_FILE_1}/Generators\" \"${SCRIPT_OUTPUT_FILE_0}/build/\"\n\\cp -r \"${SCRIPT_INPUT_FILE_1}/Generators\" \"${SCRIPT_OUTPUT_FILE_0}/build/\"\n\\cp \"${SCRIPT_INPUT_FILE_1}/../Example/Example.r.swift\" \"${SCRIPT_OUTPUT_FILE_0}/build/Example/ \"\n\\cp \"${SCRIPT_INPUT_FILE_1}/../Example/CustomMetadata.m.swift\" \"${SCRIPT_OUTPUT_FILE_0}/build/Example/\"\n\nrm -f \"${SCRIPT_OUTPUT_FILE_0}/build/release.zip\"\ncd \"${SCRIPT_OUTPUT_FILE_0}/build/\"\nzip -r  \"release.zip\" \".\"";
+			shellScript = "set -e\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Generators\"\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Metadata\"\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Example\"\n\\cp \"${SCRIPT_INPUT_FILE_0}\" \"${SCRIPT_OUTPUT_FILE_0}/build\"\n\\cp -r \"${SCRIPT_INPUT_FILE_1}/Generators\" \"${SCRIPT_OUTPUT_FILE_0}/build/\"\n\\cp -r \"${SCRIPT_INPUT_FILE_1}/Metadata\" \"${SCRIPT_OUTPUT_FILE_0}/build/\"\n\\cp \"${SCRIPT_INPUT_FILE_1}/../Example/Example.r.swift\" \"${SCRIPT_OUTPUT_FILE_0}/build/Example/\"\n\\cp \"${SCRIPT_INPUT_FILE_1}/../Example/CustomMetadata.m.swift\" \"${SCRIPT_OUTPUT_FILE_0}/build/Example/\"\n\nrm -f \"${SCRIPT_OUTPUT_FILE_0}/build/SwiftReflector.zip\"\ncd \"${SCRIPT_OUTPUT_FILE_0}/build/\"\nzip -r  \"SwiftReflector.zip\" \".\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

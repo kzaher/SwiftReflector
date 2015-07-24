@@ -19,6 +19,10 @@ func parseFilesFromDirectory(directory: NSURL) throws -> ([SourceFile], [String]
             continue
         }
 
+        if path == "build" || path.rangeOfString("/build/") != nil || path.hasPrefix("build/") {
+            continue
+        }
+        
         let fileURL = directory.URLByAppendingPathComponent(path)
         
         if path.rangeOfString(".m.") != nil {
@@ -33,7 +37,6 @@ func parseFilesFromDirectory(directory: NSURL) throws -> ([SourceFile], [String]
         
         if fileManager.fileExistsAtPath(fileURL.absoluteString, isDirectory: &isDirectory) {
             if isDirectory {
-                try parseFilesFromDirectory(fileURL)
                 continue
             }
         }
