@@ -1,13 +1,21 @@
 SwiftReflector
 ==============
 
-... is a `Swift` program that extracts attributes written in form of standard `Swift` expressions from `Swift` source files and generates `Swfit` source code using metaprogramming transformations written in `Swift`.
+... is a `Swift` program that extracts attributes written in form of standard `Swift` expressions from `Swift` source files and generates `Swift` source code using metaprogramming transformations written in `Swift`.
 
 Features:
+
 * Attributes can be any Swift expressions
 * You can easily plug in your Swift logic that generates metadata or code
-* Use autocomplete while writing metaprograms
 * Configure generated file locations
+* Use autocomplete while writing metaprograms
+
+Content
+
+1. [Why](#Why)
+1. [How does it work?](#How does it work)
+1. [Typical usage](#Typical usage)
+1. [Installation](#Installation)
 
 # Why
 
@@ -46,7 +54,7 @@ Different languages have different ways of handling this problem. Basically it c
 
 It has a simple top down parser that extracts all of the metadata from source code files. For now it parses a subset of Swift, but the end goal is to hook it up to LLVM frontend once Swift becomes open source. It can be improved easily in the mean time.
 
-The parser looks for comments in this format `//{ equal number of opening and closing parenthesis }` (looks like lambda), and assignes those as attributes to following declarations. If the expression is not a valid Swift expression, metaprogram compilation will fail and you will for sure know about it :)
+The parser looks for comments in this format `//{ equal number of opening and closing parenthesis }` (looks like lambda), and assigns those as attributes to following declarations. If the expression is not a valid Swift expression, metaprogram compilation will fail and you will for sure know about it :)
 
 To mark files as files that will be reflected insert ".r." in filename. 
 
