@@ -1,6 +1,8 @@
 SwiftReflector
 ==============
 
+***Requires Swift 2.0 Xcode 7 beta 4***
+
 ... is a `Swift` program that extracts attributes written in form of standard `Swift` expressions from `Swift` source files and generates `Swift` source code using metaprogramming transformations written in `Swift`.
 
 Features:
@@ -56,7 +58,7 @@ It has a simple top down parser that extracts all of the metadata from source co
 
 The parser looks for comments in this format `//{ equal number of opening and closing parenthesis }` (looks like lambda), and assigns those as attributes to following declarations. If the expression is not a valid Swift expression, metaprogram compilation will fail and you will for sure know about it :)
 
-To mark files as files that will be reflected insert ".r." in filename. 
+To mark files as files that will be reflected insert ".r." in filename.
 
 This is needed for performance reasons and because the parser currently parses only a subset of `Swift`. ***This only relates to `.r.` files, in metaprograms and attributes you can use full swift code with autocomplete.***
 
@@ -110,7 +112,7 @@ Here is an example `.r.` file
 ```swift
 import Foundation
 
-// *** Those attributes are just normal Swfit code ***
+// *** Those attributes are just normal Swift code ***
 //
 //{ NSDate.isAprilFirst ? Silly() : Nothing() }
 //{ Value() }
@@ -178,7 +180,7 @@ Now you can just write
 print(Random.generate() as DuckType)
 ```
 
-or 
+or
 
 ```swift
 print(Json.deserialize(json) as DuckType)
@@ -194,7 +196,7 @@ print(Json.deserialize(json) as DuckType)
 git clone git@github.com:kzaher/SwiftReflector.git
 ```
 
-****Requires Swift 2.0 Xcode 7 beta 4***
+***Requires Swift 2.0 Xcode 7 beta 4***
 
 Copy swift reflector and `.m.` files from `Metadata`, `Generators` folder to your project, and SwiftReflector product to somewhere convenient.
 
