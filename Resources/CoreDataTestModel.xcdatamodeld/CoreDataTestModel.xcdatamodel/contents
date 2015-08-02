@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8166.2" systemVersion="14E46" minimumToolsVersion="Xcode 7.0">
+    <entity name="Duck" syncable="YES">
+        <attribute name="dateOfBirth" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="height" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="isHappy" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <relationship name="petter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Petter" inverseName="duck" inverseEntity="Petter" syncable="YES"/>
+    </entity>
+    <entity name="Petter" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="duck" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Duck" inverseName="petter" inverseEntity="Duck" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Duck" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Petter" positionX="-54" positionY="-9" width="128" height="75"/>
+    </elements>
+</model>

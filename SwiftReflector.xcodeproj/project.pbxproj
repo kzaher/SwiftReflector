@@ -57,6 +57,17 @@
 		C85EDCFE1B5FC78C0042AF2E /* IsEquatable.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85EDCFC1B5FC78C0042AF2E /* IsEquatable.m.swift */; };
 		C85EDD001B5FC83E0042AF2E /* IsHashable.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85EDCFF1B5FC83E0042AF2E /* IsHashable.m.swift */; };
 		C85EDD011B5FC83E0042AF2E /* IsHashable.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85EDCFF1B5FC83E0042AF2E /* IsHashable.m.swift */; };
+		C860A24F1B6E7F7B00C88D88 /* Example.Implement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBDC131B612D53002B97A4 /* Example.Implement.swift */; };
+		C860A2501B6E7F7B00C88D88 /* Example.IsHashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBDC141B612D53002B97A4 /* Example.IsHashable.swift */; };
+		C860A2511B6E7F7B00C88D88 /* CustomMetadata.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82FF30F1B5E8C9C00528BFB /* CustomMetadata.m.swift */; };
+		C860A2521B6E7F7B00C88D88 /* Example.Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81931B21B602D75005AE4D2 /* Example.Json.swift */; };
+		C860A2531B6E7F7B00C88D88 /* Example.r.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85BC85C1B5321C000B71A70 /* Example.r.swift */; };
+		C860A2541B6E7F7B00C88D88 /* Example.Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C98D761B5FEB6B00CABC4E /* Example.Random.swift */; };
+		C860A2561B6E7FCE00C88D88 /* Xml.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C860A2551B6E7FCE00C88D88 /* Xml.m.swift */; };
+		C860A25A1B6E86DD00C88D88 /* Example.Xml.swift in Sources */ = {isa = PBXBuildFile; fileRef = C860A2591B6E86DD00C88D88 /* Example.Xml.swift */; };
+		C860A25C1B6E95D800C88D88 /* Conversions.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C860A25B1B6E95D800C88D88 /* Conversions.m.swift */; };
+		C860A2671B6EAADC00C88D88 /* CoreDataTestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C860A2651B6EAADC00C88D88 /* CoreDataTestModel.xcdatamodeld */; };
+		C860A26B1B6EB1E700C88D88 /* CoreData.r.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C860A26A1B6EB1E700C88D88 /* CoreData.r.m.swift */; };
 		C861BB7E1B620AD800661AF5 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C861BB7D1B620AD800661AF5 /* README.md */; };
 		C861BB9A1B62399400661AF5 /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = C861BB991B62399400661AF5 /* LICENSE.md */; };
 		C8B236301B5C6414007FEB54 /* Production.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2362F1B5C6414007FEB54 /* Production.swift */; };
@@ -121,6 +132,11 @@
 		C85BC85C1B5321C000B71A70 /* Example.r.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.r.swift; sourceTree = "<group>"; };
 		C85EDCFC1B5FC78C0042AF2E /* IsEquatable.m.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsEquatable.m.swift; sourceTree = "<group>"; };
 		C85EDCFF1B5FC83E0042AF2E /* IsHashable.m.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsHashable.m.swift; sourceTree = "<group>"; };
+		C860A2551B6E7FCE00C88D88 /* Xml.m.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Xml.m.swift; sourceTree = "<group>"; };
+		C860A2591B6E86DD00C88D88 /* Example.Xml.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.Xml.swift; sourceTree = "<group>"; };
+		C860A25B1B6E95D800C88D88 /* Conversions.m.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversions.m.swift; sourceTree = "<group>"; };
+		C860A2661B6EAADC00C88D88 /* CoreDataTestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataTestModel.xcdatamodel; sourceTree = "<group>"; };
+		C860A26A1B6EB1E700C88D88 /* CoreData.r.m.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.r.m.swift; sourceTree = "<group>"; };
 		C861BB7D1B620AD800661AF5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C861BB991B62399400661AF5 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		C8B2362F1B5C6414007FEB54 /* Production.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Production.swift; sourceTree = "<group>"; };
@@ -166,6 +182,9 @@
 				C85EDCFC1B5FC78C0042AF2E /* IsEquatable.m.swift */,
 				C85EDCFF1B5FC83E0042AF2E /* IsHashable.m.swift */,
 				C82197231B6108E100EDCD47 /* Implement.m.swift */,
+				C860A2551B6E7FCE00C88D88 /* Xml.m.swift */,
+				C860A25B1B6E95D800C88D88 /* Conversions.m.swift */,
+				C860A26A1B6EB1E700C88D88 /* CoreData.r.m.swift */,
 			);
 			path = Generators;
 			sourceTree = "<group>";
@@ -199,6 +218,7 @@
 			children = (
 				C861BB991B62399400661AF5 /* LICENSE.md */,
 				C861BB7D1B620AD800661AF5 /* README.md */,
+				C860A25D1B6EAA6900C88D88 /* Resources */,
 				C85BC85B1B5321A900B71A70 /* Example */,
 				C85BC8531B53218000B71A70 /* SwiftReflector */,
 				C8F30D401B598D8A00242AD0 /* Tests */,
@@ -239,8 +259,17 @@
 				C81931B21B602D75005AE4D2 /* Example.Json.swift */,
 				C85BC85C1B5321C000B71A70 /* Example.r.swift */,
 				C8C98D761B5FEB6B00CABC4E /* Example.Random.swift */,
+				C860A2591B6E86DD00C88D88 /* Example.Xml.swift */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		C860A25D1B6EAA6900C88D88 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C860A2651B6EAADC00C88D88 /* CoreDataTestModel.xcdatamodeld */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C8EBDC391B6169F0002B97A4 /* Parsers */ = {
@@ -371,7 +400,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C85EDD001B5FC83E0042AF2E /* IsHashable.m.swift in Sources */,
+				C860A2521B6E7F7B00C88D88 /* Example.Json.swift in Sources */,
+				C860A26B1B6EB1E700C88D88 /* CoreData.r.m.swift in Sources */,
+				C860A2501B6E7F7B00C88D88 /* Example.IsHashable.swift in Sources */,
 				C82FF2E91B5E77DB00528BFB /* Type.m.swift in Sources */,
+				C860A2561B6E7FCE00C88D88 /* Xml.m.swift in Sources */,
 				C8F1E1431B5791D1009717E2 /* Parser.swift in Sources */,
 				C85104871B5EECDB0086583E /* FileContent.m.swift in Sources */,
 				C82FF3041B5E792500528BFB /* Json.m.swift in Sources */,
@@ -387,23 +420,29 @@
 				C82197241B6108E100EDCD47 /* Implement.m.swift in Sources */,
 				C85EDCFD1B5FC78C0042AF2E /* IsEquatable.m.swift in Sources */,
 				C82FF2E61B5E77B900528BFB /* Modifier.m.swift in Sources */,
+				C860A25C1B6E95D800C88D88 /* Conversions.m.swift in Sources */,
 				C82FF2E01B5E777D00528BFB /* Core.m.swift in Sources */,
 				C8EBDC441B618E58002B97A4 /* PropertyParsers.swift in Sources */,
 				C82197271B61091A00EDCD47 /* MetadataGeneratorType.m.swift in Sources */,
 				C82FF2F51B5E783A00528BFB /* InterfaceMetadata.m.swift in Sources */,
+				C860A2511B6E7F7B00C88D88 /* CustomMetadata.m.swift in Sources */,
 				C8B236301B5C6414007FEB54 /* Production.swift in Sources */,
 				C82FF3011B5E790C00528BFB /* Random.m.swift in Sources */,
+				C860A24F1B6E7F7B00C88D88 /* Example.Implement.swift in Sources */,
+				C860A2541B6E7F7B00C88D88 /* Example.Random.swift in Sources */,
 				C8EBDC411B618E28002B97A4 /* IdentifierParsers.swift in Sources */,
 				C82FF2EF1B5E780200528BFB /* FunctionMetadata.m.swift in Sources */,
 				C8B236321B5C6425007FEB54 /* Name.swift in Sources */,
 				C85104811B5EE56D0086583E /* CodeGeneratorBase.m.swift in Sources */,
 				C8F1E1451B579646009717E2 /* Box.swift in Sources */,
+				C860A25A1B6E86DD00C88D88 /* Example.Xml.swift in Sources */,
 				C82FF2E31B5E779300528BFB /* CodeGeneratorType.m.swift in Sources */,
 				C861BB7E1B620AD800661AF5 /* README.md in Sources */,
 				C82FF30A1B5E82F800528BFB /* EqualityExtensions.m.swift in Sources */,
 				C821972A1B6109CD00EDCD47 /* ModuleMetadataType.m.swift in Sources */,
 				C8EBDC3B1B6169F0002B97A4 /* MetadataParsers.swift in Sources */,
 				C851048A1B5EED1B0086583E /* Declaration.m.swift in Sources */,
+				C860A2531B6E7F7B00C88D88 /* Example.r.swift in Sources */,
 				C82FF30D1B5E84CB00528BFB /* Class.m.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +457,7 @@
 				C82FF3051B5E792500528BFB /* Json.m.swift in Sources */,
 				C82FF2F31B5E782000528BFB /* PropertyMetadata.m.swift in Sources */,
 				C82FF2ED1B5E77F400528BFB /* ArgumentMetadata.m.swift in Sources */,
+				C860A2671B6EAADC00C88D88 /* CoreDataTestModel.xcdatamodeld in Sources */,
 				C851048E1B5F285A0086583E /* NSFileHandle+Write.m.swift in Sources */,
 				C8B236341B5C6440007FEB54 /* Production.swift in Sources */,
 				C82FF31A1B5EBD8D00528BFB /* ModuleMetadata.m.swift in Sources */,
@@ -597,6 +637,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C860A2651B6EAADC00C88D88 /* CoreDataTestModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C860A2661B6EAADC00C88D88 /* CoreDataTestModel.xcdatamodel */,
+			);
+			currentVersion = C860A2661B6EAADC00C88D88 /* CoreDataTestModel.xcdatamodel */;
+			path = CoreDataTestModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C85BC8491B53218000B71A70 /* Project object */;
 }

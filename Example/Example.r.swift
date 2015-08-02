@@ -20,7 +20,7 @@ protocol DuckType {
     var name: String { get }
     var rank: String { get set }
     
-    //{ JsonAttribute(path: "dateOfBirth", transform: relativeDate) }
+    //{ JsonAttribute(path: "dateOfBirth", deserialize: "relativeDate") }
     var age: Int { get }
     
     var spouse: DuckType? { get }

@@ -262,4 +262,14 @@ class TestParser : XCTestCase {
             XCTFail()
         }
     }
+    
+    func testCoreDataSerialization() {
+        let data = "/Users/kzaher/Projects/SwiftReflector/Resources/CoreDataTestModel.xcdatamodeld/CoreDataTestModel.xcdatamodel"
+        
+        let model = data.stringByAppendingPathComponent("CoreDataTestModel.xcdatamodel/contents")
+        
+        let modelXml = try! NSXMLDocument(contentsOfURL: NSURL(string: model)!, options: 0)
+        
+        
+    }
 }

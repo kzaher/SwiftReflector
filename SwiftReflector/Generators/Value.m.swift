@@ -18,7 +18,7 @@ class Value : MetadataGeneratorType {
     }
     
     func generateInterfaces(interfaceMetadata: InterfaceMetadata, metadata: ModuleMetadataType) -> [InterfaceMetadata] {
-        var implementation = InterfaceMetadata(interfaceType: InterfaceType.Struct,
+        let implementation = InterfaceMetadata(interfaceType: InterfaceType.Struct,
             type: Type.Normal(self.implementation ?? Implement.implementationNameForInterface(interfaceMetadata), []),
             inherits: [interfaceMetadata.type],
             modifiers: interfaceMetadata.modifiers,

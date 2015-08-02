@@ -1,33 +1,35 @@
 //
-//  Json.m.swift
+//  Xml.m.swift
 //  SwiftReflector
 //
-//  Created by Krunoslav Zaher on 7/21/15.
+//  Created by Krunoslav Zaher on 8/2/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
 import Foundation
 
-class JsonAttribute {
+class XmlAttribute {
     let path: String?
+    let filter: String?
     let deserialize: String?
     let serialize: String?
-    let jsonValue: String?
     let implementation: String?
     
-    init(path: String? = nil, deserialize: String? = nil, serialize: String? = nil, jsonValue: String? = nil, implementation: String? = nil) {
+    init(path: String? = nil, filter: String?, deserialize: String? = nil, serialize: String? = nil, implementation: String? = nil) {
         self.path = path
+        self.filter = filter
         self.deserialize = deserialize
         self.serialize = serialize
         self.implementation = implementation
-        self.jsonValue = jsonValue
     }
 }
 
-class Json : CodeGeneratorBase, CodeGeneratorType {
+class Xml : CodeGeneratorBase, CodeGeneratorType {
+    let root: String?
     let implementation: String?
     
-    init(implementation: String? = nil) {
+    init(root: String? = nil, implementation: String? = nil) {
+        self.root = root
         self.implementation = implementation
     }
     
@@ -38,7 +40,7 @@ class Json : CodeGeneratorBase, CodeGeneratorType {
                 implementationName = explicitName
             }
             else {
-                file.write("/* Interface implementation not specified, please use `Json(implementation: \"Value\")` for `\(interfaceMetadata.type)` */ ")
+                file.write("/* Interface implementation not specified, please use `Xml(implementation: \"Value\")` for `\(interfaceMetadata.type)` */ ")
                 return
             }
         }
@@ -46,31 +48,31 @@ class Json : CodeGeneratorBase, CodeGeneratorType {
             implementationName = interfaceMetadata.type.description
         }
         
-        file.writeln("// Json for \(interfaceMetadata.type)")
+        file.writeln("// Xml for \(interfaceMetadata.type)")
         file.writeln("")
         
         let parse = { () -> Void in
-                for p in interfaceMetadata.properties {
-                    let jsonAttribute = p.attribute() as JsonAttribute?
-                    let type: String
-                    if let backingType = jsonAttribute?.implementation {
-                        type = backingType
-                    }
-                    else {
-                        type = p.type.description
-                    }
-                    let path = jsonAttribute?.path != nil ? jsonAttribute!.path! : p.name
-                    let howToDeserialize: String
-                    
-                    if let deserialize = jsonAttribute?.deserialize {
-                        howToDeserialize = " try \(deserialize)(Json.valueAtPath(json, \"\(path)\"))"
-                    }
-                    else {
-                        howToDeserialize = " try Json.deserialize(json, \"\(path)\")"
-                    }
-                    file.writeln("let \(p.name): \(type) = \(howToDeserialize)")
+            for p in interfaceMetadata.properties {
+                let jsonAttribute = p.attribute() as XmlAttribute?
+                let type: String
+                if let backingType = jsonAttribute?.implementation {
+                    type = backingType
                 }
-                file.writeln("return \(implementationName)(\n            " + ",\n            ".join(interfaceMetadata.properties.map { "\($0.name): \($0.name)" }) + "\n         )")
+                else {
+                    type = p.type.description
+                }
+                let path = jsonAttribute?.path != nil ? jsonAttribute!.path! : p.name
+                let howToDeserialize: String
+                
+                if let deserialize = jsonAttribute?.deserialize {
+                    howToDeserialize = " try \(deserialize)(Json.valueAtPath(json, \"\(path)\"))"
+                }
+                else {
+                    howToDeserialize = " try Json.deserialize(json, \"\(path)\")"
+                }
+                file.writeln("let \(p.name): \(type) = \(howToDeserialize)")
+            }
+            file.writeln("return \(implementationName)(\n            " + ",\n            ".join(interfaceMetadata.properties.map { "\($0.name): \($0.name)" }) + "\n         )")
         }
         
         let serialize = { () -> Void in
@@ -78,7 +80,7 @@ class Json : CodeGeneratorBase, CodeGeneratorType {
                 let jsonAttribute = p.attribute() as JsonAttribute?
                 let optional = p.type.isOptional ? "?" : ""
                 return "Json.setJsonValueAtPath(json, \"\(jsonAttribute?.path ?? p.name)\",  \(p.name)\(optional).toJson())"
-            }) + "\n\n        return json\n")
+                }) + "\n\nreturn json\n")
         }
         
         if interfaceMetadata.interfaceType == .Protocol_ {
@@ -143,91 +145,101 @@ class Json : CodeGeneratorBase, CodeGeneratorType {
     }
 }
 
-let JsonParsingDomain = "JSONParsing"
 
-let JsonParsingTargetKey = "JSONParsingTarget"
-let JsonParsingTargetPathKey = "JSONParsingTargetPath"
+func a2 () {
+    let data = "<a c=\"34\"><B>s</B></a>".dataUsingEncoding(NSUTF8StringEncoding)!
+    let document = try! NSXMLDocument(data: data, options: 0)
+    let attribute = (document.children![0] as! NSXMLElement).attributes![0]
+     //document.children![0].children![0].children![0].kind
+}
 
-enum JsonParsingError : Int {
+let XmlParsingDomain = "XMLParsing"
+
+let XmlParsingTargetKey = "XmlParsingTarget"
+let XmlParsingTargetPathKey = "XmlParsingTargetPath"
+
+let xPathSelf = ""
+
+enum XmlParsingError : Int {
     case MemberDoesntExist = 1
     case WrongType = 2
+    case WrongXPath = 3
 }
 
-protocol JsonConvertable {
-    static func parseJson(json: AnyObject) throws -> Self
-    func toJson() -> AnyObject
+protocol XmlConvertable {
+    static func parseXml(root: NSXMLElement, xPath: String) throws -> Self?
+    func toXml(root: NSXMLElement, xPath: String)
 }
 
-extension String : JsonConvertable {
-    func toJson() -> AnyObject {
-        return self
+extension StringSerializable {
+    func toXml(root: NSXMLElement, xPath: String) {
+        if xPath.hasPrefix("@") {
+            let attributeName = xPath.substringFromIndex(xPath.startIndex.successor())
+            root.addAttribute(NSXMLNode.attributeWithName(attributeName, stringValue: self.toString()) as! NSXMLNode)
+        }
+        else if xPath == "text()" {
+            root.addChild(NSXMLNode.textWithStringValue(self.toString()) as! NSXMLNode)
+        }
+        else {
+            let value = NSXMLNode.elementWithName("Value", stringValue: self.toString()) as! NSXMLNode
+            root.addChild(value)
+        }
     }
     
-    static func parseJson(json: AnyObject) throws -> String {
-        return try castJson(json)
+    static func parseXml(root: NSXMLElement, xPath: String) throws -> Self? {
+        if xPath.hasPrefix("@") {
+            let attributeName = xPath.substringFromIndex(xPath.startIndex.successor())
+            guard let stringValue = root.attributeForName(attributeName)?.stringValue else {
+                return nil
+            }
+            
+            return try self.parseString(stringValue)
+        }
+        else if xPath == "text()" {
+            guard let stringValue = root.stringValue else {
+                return nil
+            }
+            
+            return try self.parseString(stringValue)
+        }
+        else if xPath == xPathSelf {
+            guard let stringValue = root.stringValue else {
+                return nil
+            }
+            
+            return try self.parseString(stringValue)
+        }
+        else {
+            let error = { () -> Void in
+                throw NSError(domain: XmlParsingDomain, code: XmlParsingError.WrongXPath.rawValue, userInfo: nil)
+            }
+            try! error()
+            return nil
+        }
     }
 }
 
-extension Int : JsonConvertable {
-    func toJson() -> AnyObject {
-        return self
-    }
+extension String : XmlConvertable {
+}
+
+extension Int : XmlConvertable {
+}
+
+extension Bool : XmlConvertable {
+}
+
+extension Float : XmlConvertable {
+}
+
+extension Double : XmlConvertable {
+}
+
+extension Xml {
     
-    static func parseJson(json: AnyObject) throws -> Int {
-        return try castJson(json)
-    }
-}
-
-extension Bool : JsonConvertable {
-    func toJson() -> AnyObject {
-        return self
-    }
-    
-    static func parseJson(json: AnyObject) throws -> Bool {
-        return try castJson(json)
-    }
-}
-
-extension Float : JsonConvertable {
-    func toJson() -> AnyObject {
-        return self
-    }
-    
-    static func parseJson(json: AnyObject) throws -> Float {
-        return try castJson(json)
-    }
-}
-
-extension Double : JsonConvertable {
-    func toJson() -> AnyObject {
-        return self
-    }
-    
-    static func parseJson(json: AnyObject) throws -> Double {
-        return try castJson(json)
-    }
-}
-
-func castJson<T>(json: AnyObject) throws -> T {
-    if let result = json as? T {
-        return result
-    }
-    else {
-        throw NSError(
-            domain: JsonParsingDomain,
-            code: JsonParsingError.WrongType.rawValue,
-            userInfo: [
-                JsonParsingTargetKey : json,
-            ])
-    }
-}
-
-extension Json {
-
     static func deserialize<T: JsonConvertable>(json: AnyObject) throws -> T {
         return try T.parseJson(json)
     }
-
+    
     static func valueAtPath(json: AnyObject, _ path: String) throws -> AnyObject? {
         var root: AnyObject = json
         do {
@@ -257,7 +269,7 @@ extension Json {
         
         return root
     }
-
+    
     static func deserialize<T: JsonConvertable>(json: AnyObject, _ path: String) throws -> T? {
         if let value = try valueAtPath(json, path) {
             return try T.parseJson(value)
@@ -266,7 +278,7 @@ extension Json {
             return nil
         }
     }
-
+    
     static func deserialize<T: JsonConvertable>(json: AnyObject, _ path: String) throws -> T {
         let result: T? = try deserialize(json, path)
         guard let result2 = result else {
@@ -281,11 +293,11 @@ extension Json {
         
         return result2
     }
-
+    
     static func deserialize<T: JsonConvertable>(json: AnyObject) throws -> [T] {
         return try [T].parseJson(json)
     }
-
+    
     static func deserialize<T: JsonConvertable>(json: AnyObject, _ path: String) throws -> [T] {
         if let value = try valueAtPath(json, path) {
             return try [T].parseJson(value)
@@ -294,7 +306,7 @@ extension Json {
             return []
         }
     }
-
+    
     static func deserialize<T>(json: AnyObject, _ path: String, _ convert: (AnyObject) throws -> T) throws -> [T] {
         guard let target = try valueAtPath(json, path) else {
             return []
@@ -325,26 +337,99 @@ extension Json {
                 json = nextJson
             }
         }
-     
+        
         json[components.last!] = value ?? NSNull()
     }
 }
 
-extension Array where Element : JsonConvertable {
-    func toJson() -> AnyObject {
-        return self.map { $0.toJson() }
+extension NSXMLElement {
+    
+    func ensureXPathElement(xPath: String) -> NSXMLElement {
+        if xPath == xPathSelf {
+            return self
+        }
+     
+        var element = self
+        for component in xPath.componentsSeparatedByString("/") {
+            if let nextElement = element.elementsForName(component).first {
+                element = nextElement
+                continue
+            }
+
+            let newElement = NSXMLElement.elementWithName(component) as! NSXMLElement
+            element = newElement
+        }
+        
+        return element
+    }
+  
+    func getXPathElement(xPath: String) -> NSXMLElement? {
+        if xPath == xPathSelf {
+            return self
+        }
+        
+        let components = xPath.componentsSeparatedByString("/")
+        
+        var element = self
+        for component in components {
+            if let nextElement = element.elementsForName(component).first {
+                element = nextElement
+                continue
+            }
+            
+            return nil
+        }
+        
+        return element
     }
     
-    static func parseJson(json: AnyObject) throws -> [Element] {
-        let elements: NSArray = try castJson(json)
+    /*
+    func getXPathElementAndLastSegment(xPath: String) -> (NSXMLElement?, String?) {
+        if xPath == "" {
+            return (self, xPathSelf)
+        }
+        
+        let components = xPath.componentsSeparatedByString("/")
+        
+        var element = self
+        for i in 0 ..< components.count - 1 {
+            let component = components[i]
+            if let nextElement = element.elementsForName(component).first {
+                element = nextElement
+                continue
+            }
+            
+            return (nil, nil)
+        }
+        
+        return (element, components.last!)
+    }*/
+}
+
+extension Array where Element : XmlConvertable {
+    static func parseXml(root: NSXMLElement, xPath: String) throws -> Array<Element> {
+        let whereToReadFrom = root.getXPathElement(xPath)
+        
+        let nodes = whereToReadFrom?.children ?? []
         
         var results = [Element]()
         
-        for e in elements {
-            results.append(try Element.parseJson(e))
+        for e in nodes {
+            let node = try castOrThrow(e) as NSXMLElement
+            if let element = try Element.parseXml(node, xPath: xPathSelf) {
+                results.append(element)
+            }
         }
         
         return results
+    }
+    
+    func toXml(root: NSXMLElement, xPath: String) {
+        let whereToInsert = root.ensureXPathElement(xPath)
+        
+        for e in self {
+            e.toXml(whereToInsert, xPath: xPathSelf)
+        }
     }
 }
 
