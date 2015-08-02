@@ -37,6 +37,9 @@ extension Declaration : JsonConvertable {
         else if type == "interface" {
             return .Interface(interface: try Json.deserialize(json, "interface"))
         }
+        else if type == "function" {
+            return .Function(function: try Json.deserialize(json, "function"))
+        }
         else {
             fatalError("Unknown type \(type)")
         }
@@ -53,6 +56,11 @@ extension Declaration : JsonConvertable {
             return [
                 "type" : "interface",
                 "interface" : interface.toJson()
+            ]
+        case .Function(let function):
+            return [
+                "type" : "function",
+                "function" : function.toJson()
             ]
         }
     }
@@ -77,6 +85,7 @@ extension InterfaceMetadata : JsonConvertable {
             modifiers: try Json.deserialize(json, "modifiers"),
             properties: try Json.deserialize(json, "properties"),
             functions: try Json.deserialize(json, "functions"),
+            enumCases: try Json.deserialize(json, "enumCases"),
             typealiases: try Json.deserialize(json, "typealiases"),
             serializedAttributes: try Json.deserialize(json, "serializedAttributes")
         )
@@ -90,6 +99,7 @@ extension InterfaceMetadata : JsonConvertable {
         "modifiers" : modifiers.map { $0.rawValue },
         "properties" : properties.map { $0.toJson() },
         "functions" : functions.map { $0.toJson() },
+        "enumCases" : enumCases.map { $0.toJson() },
         "typealiases" : typealiases,
         "serializedAttributes" : serializedAttributes
         ]
@@ -168,12 +178,16 @@ extension PropertyMetadata : JsonConvertable {
 
 extension FunctionMetadata : JsonConvertable {
     static func parseJson(json: AnyObject) throws -> FunctionMetadata {
-        return FunctionMetadata(
+        var function = FunctionMetadata(
             name: try Json.deserialize(json, "name"),
             arguments: try Json.deserialize(json, "arguments"),
             returnType: try Json.deserialize(json, "returnType"),
             modifiers: try Json.deserialize(json, "modifiers")
         )
+        
+        function.serializedAttributes = try Json.deserialize(json, "serializedAttributes")
+        
+        return function
     }
     
     func toJson() -> AnyObject {
@@ -182,7 +196,30 @@ extension FunctionMetadata : JsonConvertable {
             "arguments" : arguments.map { $0.toJson() },
             "returnType" : returnType.toJson(),
             "modifiers" : modifiers.map { $0.rawValue },
-            "attributes" : attributes
+            "serializedAttributes" : serializedAttributes
+        ]
+    }
+}
+
+extension EnumCaseMetadata : JsonConvertable {
+    static func parseJson(json: AnyObject) throws -> EnumCaseMetadata {
+        var enumCase = EnumCaseMetadata(
+            name: try Json.deserialize(json, "name"),
+            arguments: try Json.deserialize(json, "arguments"),
+            modifiers: try Json.deserialize(json, "modifiers")
+        )
+        
+        enumCase.serializedAttributes = try Json.deserialize(json, "serializedAttributes")
+        
+        return enumCase
+    }
+    
+    func toJson() -> AnyObject {
+        return [
+            "name" : name,
+            "arguments" : arguments.map { $0.toJson() },
+            "modifiers" : modifiers.map { $0.rawValue },
+            "serializedAttributes" : serializedAttributes
         ]
     }
 }
@@ -201,6 +238,7 @@ extension ArgumentMetadata : JsonConvertable {
     static func parseJson(json: AnyObject) throws -> ArgumentMetadata {
         return ArgumentMetadata(
             name: try Json.deserialize(json, "name"),
+            publicName: try Json.deserialize(json, "publicName"),
             type: try Json.deserialize(json, "type")
         )
     }
@@ -208,6 +246,7 @@ extension ArgumentMetadata : JsonConvertable {
     func toJson() -> AnyObject {
         return [
             "name" : name,
+            "publicName" : publicName,
             "type" : type.toJson()
         ]
     }

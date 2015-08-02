@@ -33,6 +33,7 @@ class TestParser : XCTestCase {
             modifiers: [Modifier.Public, Modifier.Final],
             properties: [],
             functions: [],
+            enumCases: [],
             typealiases: [],
             serializedAttributes: []
             )
@@ -54,6 +55,7 @@ class TestParser : XCTestCase {
             modifiers: [Modifier.Public, Modifier.Final],
             properties: [],
             functions: [],
+            enumCases: [],
             typealiases: [],
             serializedAttributes: []
             )
@@ -117,6 +119,7 @@ class TestParser : XCTestCase {
             modifiers: [Modifier.Public, Modifier.Final],
             properties: [],
             functions: [],
+            enumCases: [],
             typealiases: [],
             serializedAttributes: []
         )
@@ -153,6 +156,8 @@ class TestParser : XCTestCase {
         "  public var tupac: ((String?, Int))\n" +
         "  public init(a: Int) { super.init(a) }\n" +
         "  deinit { println(x) }\n" +
+        "  case TestCase(a: Int, b: String)\n" +
+        "  case TestCase2\n" +
         "\n" +
         "}\n"
         
@@ -226,6 +231,21 @@ class TestParser : XCTestCase {
                 )
             ]
             
+            let enumCases = [
+                EnumCaseMetadata(
+                    name: "TestCase",
+                    arguments: [
+                        ArgumentMetadata(name: "a", type: Type.Normal("Int", [])),
+                        ArgumentMetadata(name: "b", type: Type.Normal("String", [])),
+                    ],
+                    modifiers: []),
+                EnumCaseMetadata(
+                    name: "TestCase2",
+                    arguments: [],
+                    modifiers: []
+                )
+            ]
+            
             let expected = InterfaceMetadata(
                 interfaceType: InterfaceType.Class,
                 type: Type.Normal("A", [Type.Normal("b", []), Type.Normal("C", [])]),
@@ -233,6 +253,7 @@ class TestParser : XCTestCase {
                 modifiers: [Modifier.Public, Modifier.Final],
                 properties: properties,
                 functions: functions,
+                enumCases: enumCases,
                 typealiases: [],
                 serializedAttributes: [
                     "classAttribute"
@@ -268,7 +289,7 @@ class TestParser : XCTestCase {
         
         let model = data.stringByAppendingPathComponent("CoreDataTestModel.xcdatamodel/contents")
         
-        let modelXml = try! NSXMLDocument(contentsOfURL: NSURL(string: model)!, options: 0)
+        //let modelXml = try! NSXMLDocument(contentsOfURL: NSURL(string: model)!, options: 0)
         
         
     }

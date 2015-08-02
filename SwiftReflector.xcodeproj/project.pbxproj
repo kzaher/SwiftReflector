@@ -70,6 +70,8 @@
 		C860A26B1B6EB1E700C88D88 /* CoreData.r.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C860A26A1B6EB1E700C88D88 /* CoreData.r.m.swift */; };
 		C861BB7E1B620AD800661AF5 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C861BB7D1B620AD800661AF5 /* README.md */; };
 		C861BB9A1B62399400661AF5 /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = C861BB991B62399400661AF5 /* LICENSE.md */; };
+		C89475F81B6ED18500F5D718 /* EnumCaseMetadata.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89475F71B6ED18500F5D718 /* EnumCaseMetadata.m.swift */; };
+		C89475F91B6ED18900F5D718 /* EnumCaseMetadata.m.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89475F71B6ED18500F5D718 /* EnumCaseMetadata.m.swift */; };
 		C8B236301B5C6414007FEB54 /* Production.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2362F1B5C6414007FEB54 /* Production.swift */; };
 		C8B236321B5C6425007FEB54 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B236311B5C6425007FEB54 /* Name.swift */; };
 		C8B236331B5C643D007FEB54 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B236311B5C6425007FEB54 /* Name.swift */; };
@@ -139,6 +141,7 @@
 		C860A26A1B6EB1E700C88D88 /* CoreData.r.m.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.r.m.swift; sourceTree = "<group>"; };
 		C861BB7D1B620AD800661AF5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C861BB991B62399400661AF5 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		C89475F71B6ED18500F5D718 /* EnumCaseMetadata.m.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumCaseMetadata.m.swift; sourceTree = "<group>"; };
 		C8B2362F1B5C6414007FEB54 /* Production.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Production.swift; sourceTree = "<group>"; };
 		C8B236311B5C6425007FEB54 /* Name.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Name.swift; sourceTree = "<group>"; };
 		C8C98D761B5FEB6B00CABC4E /* Example.Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.Random.swift; sourceTree = "<group>"; };
@@ -209,6 +212,7 @@
 				C82FF2F11B5E782000528BFB /* PropertyMetadata.m.swift */,
 				C82FF3121B5EBAC500528BFB /* Serialization.m.swift */,
 				C82FF2E81B5E77DB00528BFB /* Type.m.swift */,
+				C89475F71B6ED18500F5D718 /* EnumCaseMetadata.m.swift */,
 			);
 			path = Metadata;
 			sourceTree = "<group>";
@@ -378,7 +382,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		C861BB761B61B21D00661AF5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -388,7 +392,7 @@
 			outputPaths = (
 				"$(SRCROOT)",
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "set -e\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Generators\"\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Metadata\"\nmkdir -p \"${SCRIPT_OUTPUT_FILE_0}/build/Example\"\n\\cp \"${SCRIPT_INPUT_FILE_0}\" \"${SCRIPT_OUTPUT_FILE_0}/build\"\n\\cp -r \"${SCRIPT_INPUT_FILE_1}/Generators\" \"${SCRIPT_OUTPUT_FILE_0}/build/\"\n\\cp -r \"${SCRIPT_INPUT_FILE_1}/Metadata\" \"${SCRIPT_OUTPUT_FILE_0}/build/\"\n\\cp \"${SCRIPT_INPUT_FILE_1}/../Example/Example.r.swift\" \"${SCRIPT_OUTPUT_FILE_0}/build/Example/\"\n\\cp \"${SCRIPT_INPUT_FILE_1}/../Example/CustomMetadata.m.swift\" \"${SCRIPT_OUTPUT_FILE_0}/build/Example/\"\n\nrm -f \"${SCRIPT_OUTPUT_FILE_0}/build/SwiftReflector.zip\"\ncd \"${SCRIPT_OUTPUT_FILE_0}/build/\"\nzip -r  \"SwiftReflector.zip\" \".\"";
 		};
@@ -442,6 +446,7 @@
 				C821972A1B6109CD00EDCD47 /* ModuleMetadataType.m.swift in Sources */,
 				C8EBDC3B1B6169F0002B97A4 /* MetadataParsers.swift in Sources */,
 				C851048A1B5EED1B0086583E /* Declaration.m.swift in Sources */,
+				C89475F81B6ED18500F5D718 /* EnumCaseMetadata.m.swift in Sources */,
 				C860A2531B6E7F7B00C88D88 /* Example.r.swift in Sources */,
 				C82FF30D1B5E84CB00528BFB /* Class.m.swift in Sources */,
 			);
@@ -482,6 +487,7 @@
 				C8EBDC421B618E28002B97A4 /* IdentifierParsers.swift in Sources */,
 				C82197281B61091A00EDCD47 /* MetadataGeneratorType.m.swift in Sources */,
 				C85EDCFE1B5FC78C0042AF2E /* IsEquatable.m.swift in Sources */,
+				C89475F91B6ED18900F5D718 /* EnumCaseMetadata.m.swift in Sources */,
 				C82FF30B1B5E82F800528BFB /* EqualityExtensions.m.swift in Sources */,
 				C82197251B6108E100EDCD47 /* Implement.m.swift in Sources */,
 				C851048B1B5EED1B0086583E /* Declaration.m.swift in Sources */,

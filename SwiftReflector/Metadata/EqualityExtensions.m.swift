@@ -32,6 +32,10 @@ extension SourceFile : Equatable {
     
 }
 
+extension EnumCaseMetadata : Equatable {
+    
+}
+
 func ==(lhs: PropertyMetadata, rhs: PropertyMetadata) -> Bool {
     return lhs.name == rhs.name
         && lhs.accessType == rhs.accessType
@@ -47,6 +51,13 @@ func ==(lhs: InterfaceMetadata, rhs: InterfaceMetadata) -> Bool {
         && lhs.properties == rhs.properties
         && lhs.serializedAttributes == rhs.serializedAttributes
         && lhs.functions == rhs.functions
+        && lhs.enumCases == rhs.enumCases
+}
+
+func ==(lhs: EnumCaseMetadata, rhs: EnumCaseMetadata) -> Bool {
+    return lhs.name == rhs.name
+    && lhs.modifiers == rhs.modifiers
+    && lhs.arguments == rhs.arguments
 }
 
 func ==(lhs: Type, rhs: Type) -> Bool {
@@ -59,11 +70,12 @@ func ==(lhs: FunctionMetadata, rhs: FunctionMetadata) -> Bool {
         && lhs.modifiers == rhs.modifiers
         && lhs.name == rhs.name
         && lhs.returnType == rhs.returnType
-        && lhs.attributes == rhs.attributes
+        && lhs.serializedAttributes == rhs.serializedAttributes
 }
 
 func ==(lhs: ArgumentMetadata, rhs: ArgumentMetadata) -> Bool {
     return lhs.name == rhs.name
+        && lhs.publicName == rhs.publicName
         && lhs.type == rhs.type
 }
 

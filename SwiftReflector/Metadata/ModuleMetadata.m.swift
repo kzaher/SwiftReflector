@@ -38,6 +38,10 @@ class ModuleMetadata : ModuleMetadataType {
         self.interfaceForTypeNamed[interface.type.description] = interface
     }
     
+    func allInterfaces() -> [InterfaceMetadata] {
+        return Array(self.interfaceForTypeNamed.values)
+    }
+    
     func loadMetadata(metadataPath: String, attributes: [AnyObject]) {
         let metadataData = NSData(contentsOfFile: metadataPath)!
         

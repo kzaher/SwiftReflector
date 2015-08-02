@@ -10,6 +10,8 @@ import Foundation
 
 protocol ModuleMetadataType {
     
+    func allInterfaces() -> [InterfaceMetadata]
+    
     func interfaceForType(type: Type) -> InterfaceMetadata?
     
 }

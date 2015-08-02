@@ -194,11 +194,14 @@ let propertyParser = { () -> ParserOf<PropertyMetadata> in
         }
 }()
 
-
-let functionParser = { () -> ParserOf<FunctionMetadata> in
-    let argumentIdentifier = Name(identifierParser)
+let argumentsParser = { () -> ParserOf<[ArgumentMetadata]> in
+    let publicIdentifier = Name(identifierParser)
+    let argumentIdentifier = Name(identifierParser.optional)
     let argumentType = Name(typeParser)
+    
     let argument = begin(spaceOrNewlineParser)
+        .then(publicIdentifier)
+        .then(spaceOrNewlineParser)
         .then(argumentIdentifier)
         .then(spaceOrNewlineParser)
         .then(constant(":"))
@@ -206,10 +209,14 @@ let functionParser = { () -> ParserOf<FunctionMetadata> in
         .then(argumentType)
         .then(spaceOrNewlineParser)
         .parse {
-            return ArgumentMetadata(name: argumentIdentifier.value, type: argumentType.value)
+            return ArgumentMetadata(name: argumentIdentifier.value ?? publicIdentifier.value, publicName: publicIdentifier.value,  type: argumentType.value)
         }
     
-    let argumentsParser = argument.zeroPlusSeparatedBy(constant(","))
+    
+    return argument.zeroPlusSeparatedBy(constant(","))
+}()
+
+let functionParser = { () -> ParserOf<FunctionMetadata> in
     
     let modifiers = Name(modifiersParser)
     let name = Name(identifierParser)
@@ -265,11 +272,41 @@ let functionParser = { () -> ParserOf<FunctionMetadata> in
     return combine(normalOrInit, deinitFunction)
 }()
 
+let enumCaseParser = { () -> ParserOf<EnumCaseMetadata> in
+    let allArguments = Name(argumentsParser)
+    
+    let optionalArguments = begin(spaceOrNewlineParser)
+        .then(constant("("))
+        .then(allArguments)
+        .then(constant(")"))
+        .parse {
+            return allArguments.value
+        }
+        .optional
+    
+    let modifiers = Name(modifiersParser)
+    let name = Name(identifierParser)
+    let arguments = Name(optionalArguments)
+    
+    return begin(spaceOrNewlineParser)
+        .then(modifiers)
+        .then(spaceOrNewlineParser)
+        .then(constant("case"))
+        .then(spaceOrNewlineParser)
+        .then(name)
+        .then(spaceOrNewlineParser)
+        .then(arguments)
+        .parse {
+            return EnumCaseMetadata(name: name.value, arguments: arguments.value ?? [], modifiers: modifiers.value)
+        }
+}()
+
 enum Member {
     case Comment(string: String)
     case Typealias(name: String)
     case Property(property: PropertyMetadata)
     case Function(function: FunctionMetadata)
+    case EnumCase(enumCase: EnumCaseMetadata)
 }
 
 let interfaceBodyParser = { () -> ParserOf<[Member]> in
@@ -293,6 +330,7 @@ let interfaceBodyParser = { () -> ParserOf<[Member]> in
     return combine(
         commentParser,
         typealiasParser,
+        enumCaseParser.map { r, _ ,_ in Member.EnumCase(enumCase: r) },
         propertyParser.map { r, _, _ in Member.Property(property: r) },
         functionParser.map { r, _, _ in Member.Function(function: r) }
     ).zeroPlus
@@ -327,7 +365,8 @@ let interfaceParser = { () -> ParserOf<InterfaceMetadata> in
         constant("class", value: InterfaceType.Class),
         constant("struct", value: InterfaceType.Struct),
         constant("protocol", value: InterfaceType.Protocol_),
-        constant("extension", value: InterfaceType.Extension)
+        constant("extension", value: InterfaceType.Extension),
+        constant("enum", value: InterfaceType.Enum)
     ))
     
     let type = Name(typeParser)
@@ -354,6 +393,7 @@ let interfaceParser = { () -> ParserOf<InterfaceMetadata> in
             
             var properties = [PropertyMetadata]()
             var functions = [FunctionMetadata]()
+            var enumCases = [EnumCaseMetadata]()
             
             for member in members.value {
                 switch member {
@@ -371,9 +411,15 @@ let interfaceParser = { () -> ParserOf<InterfaceMetadata> in
                     properties.append(property2)
                 case .Function(let function):
                     var function2 = function
-                    function2.attributes = attributes
+                    function2.serializedAttributes = attributes
                     attributes.removeAll(keepCapacity: true)
                     functions.append(function2)
+                case .EnumCase(let enumCase):
+                    var enumCase2 = enumCase
+                    enumCase2.serializedAttributes = attributes
+                    enumCases.append(enumCase2)
+                    attributes.removeAll(keepCapacity: true)
+                    
                 }
             }
             
@@ -384,6 +430,7 @@ let interfaceParser = { () -> ParserOf<InterfaceMetadata> in
                     modifiers: modifiers.value,
                     properties: properties,
                     functions: functions,
+                    enumCases: enumCases,
                     typealiases: [],
                     serializedAttributes: []
                 )
@@ -429,6 +476,7 @@ enum ParsedDeclaration {
     case Comment(comment: String)
     case Typealias
     case Interface(interface: InterfaceMetadata)
+    case Function(function: FunctionMetadata)
 }
 
 extension ParsedDeclaration : CustomStringConvertible {
@@ -442,6 +490,8 @@ extension ParsedDeclaration : CustomStringConvertible {
             return "typealias"
         case .Interface(let interface):
             return "\(interface)"
+        case .Function(let function):
+            return "\(function)"
         }
     }
 }
@@ -461,6 +511,7 @@ let importParser = { () -> ParserOf<String> in
 let fileParser = { () -> ParserOf<[ParsedDeclaration]> in
     
     let declaration = combine(
+        functionParser.map { f, _, _ in ParsedDeclaration.Function(function: f) },
         importParser.map { m, _, _ in ParsedDeclaration.Import(module: m) },
         singleLineCommentParser.map { c, _, _ in ParsedDeclaration.Comment(comment: c) },
         typealiasParser.map { _, _, _ in ParsedDeclaration.Typealias },
@@ -526,6 +577,9 @@ func parseFile(content: String) throws -> [Declaration] {
             attributes.removeAll()
         case .Import(let module):
             interfaces.append(Declaration.Import(module: module))
+            attributes.removeAll()
+        case .Function(let function):
+            interfaces.append(Declaration.Function(function: function))
             attributes.removeAll()
         }
     }

@@ -24,6 +24,7 @@ class Class : MetadataGeneratorType {
             modifiers: interfaceMetadata.modifiers,
             properties: interfaceMetadata.properties,
             functions: interfaceMetadata.functions,
+            enumCases: interfaceMetadata.enumCases,
             typealiases: interfaceMetadata.typealiases,
             serializedAttributes: interfaceMetadata.serializedAttributes
         )

@@ -13,15 +13,17 @@ enum InterfaceType : Int {
     case Class = 1
     case Struct = 2
     case Extension = 3
+    case Enum = 4
 }
 
 extension InterfaceType : CustomStringConvertible {
     var description: String {
         switch self {
-        case .Protocol_: return "protocol"
+        case Protocol_: return "protocol"
         case Class: return "class"
         case Struct: return "struct"
         case Extension: return "extension"
+        case Enum: return "enum"
         }
     }
 }
@@ -35,6 +37,7 @@ final class InterfaceMetadata {
     
     var properties: [PropertyMetadata]
     var functions: [FunctionMetadata]
+    var enumCases: [EnumCaseMetadata]
     
     var typealiases: [String]
     
@@ -51,6 +54,7 @@ final class InterfaceMetadata {
         modifiers: [Modifier],
         properties: [PropertyMetadata],
         functions: [FunctionMetadata],
+        enumCases: [EnumCaseMetadata],
         typealiases: [String],
         serializedAttributes: [String]
         ) {
@@ -60,6 +64,7 @@ final class InterfaceMetadata {
             self.modifiers = modifiers
             self.properties = properties
             self.functions = functions
+            self.enumCases = enumCases
             self.typealiases = typealiases
             self.serializedAttributes = serializedAttributes
     }
@@ -76,6 +81,6 @@ final class InterfaceMetadata {
 
 extension InterfaceMetadata : CustomStringConvertible {
     var description : String {
-        return "{    interfaceType : \(interfaceType),\n    attributes : \(serializedAttributes),\n    type : \(type),\n    modifiers : \(modifiers),\n    properties : \(properties)\n    functions : \(functions)\n    inherits : \(inherits),\n}"
+        return "{    interfaceType : \(interfaceType),\n    attributes : \(serializedAttributes),\n    type : \(type),\n    modifiers : \(modifiers),\n    properties : \(properties)\n    functions : \(functions)\n    inherits : \(inherits),\n    enumCases : \(enumCases),\n}"
     }
 }
